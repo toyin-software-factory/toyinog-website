@@ -19,7 +19,9 @@ const Tag = href ? 'a' : 'button';
 
 <Tag
   class:list={['button', variant]}
-  href={href}
+  href={disabled ? undefined : href}
+  role={href && disabled ? 'link' : undefined}
+  aria-disabled={href && disabled ? 'true' : undefined}
   type={href ? undefined : type}
   disabled={href ? undefined : disabled}
 >
@@ -69,7 +71,8 @@ const Tag = href ? 'a' : 'button';
     border-color: var(--color-tertiary);
   }
 
-  .button:disabled {
+  .button:disabled,
+  .button[aria-disabled='true'] {
     opacity: 0.5;
     cursor: not-allowed;
   }

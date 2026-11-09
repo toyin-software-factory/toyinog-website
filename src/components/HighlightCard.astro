@@ -21,12 +21,15 @@ const {
   thumbnailAlt = '',
   date,
 } = Astro.props;
-const formatted = new Date(date).toLocaleDateString('en-GB', {
-  year: 'numeric',
-  month: 'short',
-  day: 'numeric',
-  timeZone: 'UTC',
-});
+const parsed = new Date(date);
+const formatted = Number.isNaN(parsed.getTime())
+  ? date
+  : parsed.toLocaleDateString('en-GB', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      timeZone: 'UTC',
+    });
 ---
 
 <Panel legend={platform}>
