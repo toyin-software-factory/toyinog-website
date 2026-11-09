@@ -3,7 +3,7 @@ dist/
 .astro/
 .wrangler/
 .lighthouseci/
-.dev.vars
+.dev.vars*
 .env
 .env.*
 !.env.example

@@ -50,7 +50,8 @@ This file is committed as `docs/specs/stack.md` by the scaffold PR.
 ```
 src/
   components/    # DESIGN.md components (Button, StatusDot, Nav, Footer, CaseCard, Seo...)
-  content/       # work/, highlights/, site.yaml + config.ts schemas
+  content/       # work/, highlights/, site.yaml (collections only)
+  content.config.ts # Astro 5 collection schemas and loaders
   layouts/       # Base.astro
   pages/         # index, work/index, work/[slug], about, contact, api/contact.ts, 404
   styles/        # tokens.css, global.css
