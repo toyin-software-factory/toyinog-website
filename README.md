@@ -24,7 +24,7 @@ npm run dev       # dev server at http://localhost:4321
 | `npm run format`       | Format with Prettier                      |
 | `npm run format:check` | Verify formatting (CI runs this)          |
 
-CI (GitHub Actions) runs the Prettier check, `astro check`, the build and Lighthouse CI (performance, accessibility and SEO must each score 95 or more) on every pull request. To run Lighthouse locally: `npm run build && npx lhci autorun`.
+CI (GitHub Actions) runs the Prettier check, `astro check`, the build and Lighthouse CI (3 runs per page, asserted on the median run; accessibility and SEO must score 95 or more, and performance under 95 is a warning) on every pull request. To run Lighthouse locally: `npm run build && npx lhci autorun`.
 
 ## Deploys
 
