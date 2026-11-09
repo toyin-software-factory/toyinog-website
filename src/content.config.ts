@@ -44,4 +44,16 @@ const site = defineCollection({
   }),
 });
 
-export const collections = { work, highlights, site };
+// Single entry (id: "about") loaded from src/content/pages/about.md.
+const pages = defineCollection({
+  loader: glob({ pattern: 'about.md', base: './src/content/pages' }),
+  schema: ({ image }) =>
+    z.object({
+      title: z.string(),
+      heading: z.string(),
+      portrait: image(),
+      portraitAlt: z.string().min(10),
+    }),
+});
+
+export const collections = { work, highlights, site, pages };
