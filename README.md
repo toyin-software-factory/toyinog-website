@@ -33,7 +33,7 @@ Cloudflare Git builds deploy from `main` (dev URL) and create a preview per pull
 
 ## Contact form configuration
 
-`POST /api/contact` needs these in Cloudflare (names only, values never in the repo). Locally, put them in `.dev.vars`, which is gitignored.
+`POST /api/contact` is configured in Cloudflare only (names below; values never in the repo). Do not copy the real values to a local file. To run the endpoint locally, use a gitignored `.dev.vars` with throwaway values only: Cloudflare's published always-pass Turnstile test secret and placeholder addresses.
 
 | Name                   | Kind                    | Purpose                                                              |
 | ---------------------- | ----------------------- | -------------------------------------------------------------------- |
