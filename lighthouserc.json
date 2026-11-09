@@ -3,7 +3,11 @@
     "collect": {
       "staticDistDir": "./dist",
       "numberOfRuns": 1,
-      "url": ["/index.html"]
+      "url": [
+        "/index.html",
+        "/work/index.html",
+        "/work/placeholder-case-study-1/index.html"
+      ]
     },
     "assert": {
       "assertions": {
