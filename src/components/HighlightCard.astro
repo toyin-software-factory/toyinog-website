@@ -1,0 +1,80 @@
+---
+import Panel from './Panel.astro';
+
+interface Props {
+  title: string;
+  platform: string;
+  /** Link to the video or post on its platform. */
+  url: string;
+  /** Resolved image URL for the thumbnail (stored in the repo). */
+  thumbnail?: string;
+  thumbnailAlt?: string;
+  /** ISO date string, e.g. 2026-03-01. */
+  date: string;
+}
+
+const {
+  title,
+  platform,
+  url,
+  thumbnail,
+  thumbnailAlt = '',
+  date,
+} = Astro.props;
+const parsed = new Date(date);
+const formatted = Number.isNaN(parsed.getTime())
+  ? date
+  : parsed.toLocaleDateString('en-GB', {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+      timeZone: 'UTC',
+    });
+---
+
+<Panel legend={platform}>
+  {thumbnail && (
+    <img
+      src={thumbnail}
+      alt={thumbnailAlt}
+      loading="lazy"
+      width="640"
+      height="360"
+    />
+  )}
+  <h3>
+    <a class="title" href={url} rel="noopener noreferrer">
+      {title}
+    </a>
+  </h3>
+  <p class="date">
+    <time datetime={date}>{formatted}</time>
+  </p>
+</Panel>
+
+<style>
+  img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    border-radius: var(--rounded-none);
+  }
+
+  .title {
+    color: var(--color-on-surface);
+    text-decoration: none;
+  }
+
+  .title:hover {
+    color: var(--color-on-surface);
+    text-decoration: underline;
+    text-decoration-color: var(--color-tertiary);
+  }
+
+  .date {
+    font-size: var(--type-data-md-font-size);
+    line-height: var(--type-data-md-line-height);
+    color: var(--color-secondary);
+  }
+</style>

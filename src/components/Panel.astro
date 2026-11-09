@@ -1,0 +1,58 @@
+---
+interface Props {
+  /** Silkscreen legend in the top-left, e.g. "PROJECT 03". */
+  legend?: string;
+}
+
+const { legend } = Astro.props;
+---
+
+<div class="panel">
+  {legend && <p class="panel-legend">{legend}</p>}
+  <slot />
+</div>
+
+<style>
+  .panel {
+    --bracket: 8px;
+    position: relative;
+    padding: var(--spacing-lg);
+    background-color: var(--color-neutral);
+    border: 1px solid var(--color-border);
+    border-radius: var(--rounded-none);
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  /* Corner brackets in primary on all four corners. */
+  .panel::before,
+  .panel::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    pointer-events: none;
+    background:
+      linear-gradient(var(--color-primary), var(--color-primary)) top left /
+        var(--bracket) 1px,
+      linear-gradient(var(--color-primary), var(--color-primary)) top left / 1px
+        var(--bracket),
+      linear-gradient(var(--color-primary), var(--color-primary)) top right /
+        var(--bracket) 1px,
+      linear-gradient(var(--color-primary), var(--color-primary)) top right /
+        1px var(--bracket);
+    background-repeat: no-repeat;
+  }
+
+  .panel::after {
+    transform: scaleY(-1);
+  }
+
+  .panel-legend {
+    font-size: var(--type-label-caps-font-size);
+    line-height: var(--type-label-caps-line-height);
+    letter-spacing: var(--type-label-caps-letter-spacing);
+    text-transform: uppercase;
+    color: var(--color-primary);
+  }
+</style>

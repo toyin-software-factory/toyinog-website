@@ -1,0 +1,17 @@
+---
+// Silkscreen label in primary, e.g. "01 / WORK".
+---
+
+<p class="legend">
+  <slot />
+</p>
+
+<style>
+  .legend {
+    font-size: var(--type-label-caps-font-size);
+    line-height: var(--type-label-caps-line-height);
+    letter-spacing: var(--type-label-caps-letter-spacing);
+    text-transform: uppercase;
+    color: var(--color-primary);
+  }
+</style>

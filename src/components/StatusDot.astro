@@ -1,0 +1,42 @@
+---
+interface Props {
+  /** Text label; colour is never the only carrier of the state. */
+  label: string;
+}
+
+const { label } = Astro.props;
+---
+
+<span class="status">
+  <span class="dot" aria-hidden="true"></span>
+  <span class="label">{label}</span>
+</span>
+
+<style>
+  .status {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    font-size: var(--type-data-sm-font-size);
+    line-height: var(--type-data-sm-line-height);
+    letter-spacing: var(--type-data-sm-letter-spacing);
+    text-transform: uppercase;
+    color: var(--color-on-surface);
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    flex: none;
+    border-radius: var(--rounded-full);
+    background-color: var(--color-tertiary);
+    box-shadow: var(--glow-live);
+    animation: pulse var(--motion-pulse-duration) ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    50% {
+      opacity: var(--motion-pulse-min-opacity);
+    }
+  }
+</style>

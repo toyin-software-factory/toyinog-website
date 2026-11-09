@@ -1,0 +1,20 @@
+---
+// Stack chip: a fact, not a control. Never takes the accent.
+---
+
+<span class="chip">
+  <slot />
+</span>
+
+<style>
+  .chip {
+    display: inline-block;
+    padding: var(--spacing-xs);
+    background-color: var(--color-neutral);
+    color: var(--color-secondary);
+    border-radius: var(--rounded-sm);
+    font-size: var(--type-data-sm-font-size);
+    line-height: var(--type-data-sm-line-height);
+    letter-spacing: var(--type-data-sm-letter-spacing);
+  }
+</style>

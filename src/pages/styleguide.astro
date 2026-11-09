@@ -1,0 +1,115 @@
+---
+// Temporary: shows every component for review and Proof screenshots. Remove before launch.
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import StatusDot from '../components/StatusDot.astro';
+import Legend from '../components/Legend.astro';
+import Panel from '../components/Panel.astro';
+import Chip from '../components/Chip.astro';
+import CaseCard from '../components/CaseCard.astro';
+import HighlightCard from '../components/HighlightCard.astro';
+import Input from '../components/Input.astro';
+---
+
+<Base title="Styleguide · toyinog.com" currentPath="/work">
+  <meta slot="head" name="robots" content="noindex, nofollow" />
+
+  <Legend>00 / STYLEGUIDE</Legend>
+  <h1>Phosphor Console</h1>
+
+  <section>
+    <Legend>01 / TYPE</Legend>
+    <h2>Headline large</h2>
+    <h3>Headline medium</h3>
+    <h4>Headline small</h4>
+    <p>
+      Body medium, the reading size. Years and dates use tabular figures: 2026,
+      0420.
+    </p>
+    <p>
+      <small>Body small, for metadata.</small>
+    </p>
+    <p>
+      <a href="#main">An inline link</a>
+    </p>
+  </section>
+
+  <section>
+    <Legend>02 / CONTROLS</Legend>
+    <div class="row">
+      <Button href="#main">Get in touch</Button>
+      <Button variant="secondary" href="#main">
+        View work
+      </Button>
+      <Button variant="secondary" disabled>
+        Disabled
+      </Button>
+    </div>
+    <StatusDot label="Available — Mar 2027" />
+  </section>
+
+  <section>
+    <Legend>03 / FORM</Legend>
+    <div class="form">
+      <Input id="name" name="name" label="Name" required />
+      <Input
+        id="email"
+        name="email"
+        label="Email"
+        type="email"
+        error="Enter a valid email address."
+      />
+    </div>
+  </section>
+
+  <section>
+    <Legend>04 / PANELS</Legend>
+    <div class="grid">
+      <CaseCard
+        legend="Project 01"
+        title="Example case study"
+        outcome="Cut the weekly reporting run from four hours to ten minutes."
+        year={2026}
+        stack={['TypeScript', 'Astro', 'Cloudflare']}
+        href="/work/example"
+      />
+      <HighlightCard
+        title="Example video highlight"
+        platform="YouTube"
+        url="https://youtube.com"
+        date="2026-03-01"
+      />
+      <Panel legend="Panel">
+        <p>A bare panel: neutral fill, hairline edge, corner brackets.</p>
+        <Chip>Chip</Chip>
+      </Panel>
+    </div>
+  </section>
+</Base>
+
+<style>
+  section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-xl);
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+  }
+
+  .form {
+    display: grid;
+    gap: var(--spacing-md);
+    max-width: 420px;
+  }
+
+  .grid {
+    display: grid;
+    gap: var(--spacing-gutter);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  }
+</style>
