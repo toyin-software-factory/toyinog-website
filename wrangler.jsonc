@@ -8,5 +8,7 @@
     "binding": "ASSETS",
     "directory": "./dist",
   },
+  // Cloudflare Email Routing. Destination is chosen at runtime from CONTACT_TO_EMAIL.
+  "send_email": [{ "name": "SEND_EMAIL" }],
   "observability": { "enabled": true },
 }
