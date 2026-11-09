@@ -9,11 +9,18 @@ export async function getStaticPaths() {
   );
   return entries.map((entry, i) => ({
     params: { slug: entry.id },
-    props: { entry, prev: entries[i - 1], next: entries[i + 1] },
+    props: {
+      entry,
+      prev: entries[i - 1],
+      next: entries[i + 1],
+      position: i + 1,
+      total: entries.length,
+    },
   }));
 }
 
-const { entry, prev, next } = Astro.props;
+const { entry, prev, next, position, total } = Astro.props;
+const pad = (n: number) => String(n).padStart(2, '0');
 const { title, summary, role, year, links } = entry.data;
 const { Content } = await render(entry);
 ---
@@ -27,7 +34,7 @@ const { Content } = await render(entry);
 >
   <article class="case">
     <header class="head">
-      <Legend>CASE STUDY</Legend>
+      <Legend>{`Project ${pad(position)} / ${pad(total)}`}</Legend>
       <h1>{title}</h1>
       <p class="lead">{summary}</p>
       <dl class="meta">

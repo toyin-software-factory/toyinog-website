@@ -25,7 +25,7 @@ This file is committed as `docs/specs/stack.md` by the scaffold PR.
 - **Content collections** (`src/content/`) with Zod schemas:
   - `work/`: one Markdown file per case study (title, summary, role, year, links, featured flag, order).
   - `highlights/`: 3 to 6 hand-picked videos/posts (title, platform, url, thumbnail, date).
-  - `site.yaml`: tagline, availability text, social links (X, YouTube, GitHub). Placeholder copy until Toyin supplies the real text.
+  - `site.yaml`: name (home h1), tagline (subheading), descriptor, availability text, social links (X, YouTube, GitHub). Placeholder copy until Toyin supplies the real text.
 - **Styling:** `src/styles/tokens.css` mirrors `DESIGN.md` one to one (colour, type, spacing, radius, motion); `src/styles/global.css` holds reset and base type. Components use Astro scoped `<style>`. No Tailwind, no CSS-in-JS.
 - **Images:** `astro:assets` for the portrait and thumbnails (responsive sizes, lazy loading). Thumbnails are stored in the repo, not hot-linked.
 - **Fonts:** self-hosted via `@fontsource` (no Google Fonts request).
