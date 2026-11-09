@@ -1,20 +1,136 @@
 ---
-// Placeholder page so the build produces output. Replaced by the real home page.
+import { getCollection, getEntry } from 'astro:content';
+import { getImage } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import StatusDot from '../components/StatusDot.astro';
+import Legend from '../components/Legend.astro';
+import CaseCard from '../components/CaseCard.astro';
+import HighlightCard from '../components/HighlightCard.astro';
+
+const site = await getEntry('site', 'site');
+if (!site) throw new Error('Missing site entry: src/content/site.yaml');
+const { tagline, availability, socials } = site.data;
+
+const featured = (await getCollection('work', (e) => e.data.featured)).sort(
+  (a, b) => a.data.order - b.data.order,
+);
+
+const highlights = (await getCollection('highlights'))
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 6);
+if (highlights.length < 3) {
+  throw new Error('Home needs at least 3 highlights in src/content/highlights');
+}
+const highlightCards = await Promise.all(
+  highlights.map(async (h) => ({
+    ...h.data,
+    thumbnail: (
+      await getImage({ src: h.data.thumbnail, width: 640, height: 360 })
+    ).src,
+    date: h.data.date.toISOString().slice(0, 10),
+  })),
+);
+
+const platformLabel = { youtube: 'YouTube', x: 'X', github: 'GitHub' } as const;
+const socialLinks = [
+  { label: 'X', href: socials.x },
+  { label: 'GitHub', href: socials.github },
+  { label: 'YouTube', href: socials.youtube },
+];
+const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="toyinog.com is coming soon." />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>toyinog.com</title>
-  </head>
-  <body>
-    <main>
-      <h1>toyinog.com</h1>
-      <p>Coming soon.</p>
-    </main>
-  </body>
-</html>
+<Base title="toyinog.com" currentPath="/">
+  <meta slot="head" name="description" content={tagline} />
+
+  <section class="hero">
+    <StatusDot label={availability} />
+    <h1>{tagline}</h1>
+    <div class="actions">
+      <Button href="/work">View work</Button>
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="work-heading">
+    <Legend>01 / WORK</Legend>
+    <h2 id="work-heading">Selected work</h2>
+    <div class="grid">
+      {featured.map((entry, i) => (
+        <CaseCard
+          legend={`Project ${pad(i + 1)}`}
+          title={entry.data.title}
+          outcome={entry.data.summary}
+          year={entry.data.year}
+          href={`/work/${entry.id}`}
+        />
+      ))}
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="highlights-heading">
+    <Legend>02 / HIGHLIGHTS</Legend>
+    <h2 id="highlights-heading">Highlights</h2>
+    <div class="grid">
+      {highlightCards.map((h) => (
+        <HighlightCard
+          title={h.title}
+          platform={platformLabel[h.platform]}
+          url={h.url}
+          thumbnail={h.thumbnail}
+          date={h.date}
+        />
+      ))}
+    </div>
+  </section>
+
+  <section class="block" aria-labelledby="elsewhere-heading">
+    <Legend>03 / ELSEWHERE</Legend>
+    <h2 id="elsewhere-heading">Find me</h2>
+    <ul class="socials">
+      {socialLinks.map((s) => (
+        <li>
+          <a href={s.href} rel="noopener noreferrer">
+            {s.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+  }
+
+  .block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-xxl, 128px);
+  }
+
+  .grid {
+    display: grid;
+    gap: var(--spacing-gutter);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+  }
+
+  .socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs) var(--spacing-lg);
+    padding: 0;
+    list-style: none;
+  }
+
+  .socials a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+</style>
