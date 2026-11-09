@@ -7,7 +7,7 @@ Toyin's influencer and portfolio site. Look and feel: [`DESIGN.md`](DESIGN.md). 
 - **Language / Runtime**: TypeScript (strict), Node 22 (`.nvmrc`)
 - **Framework**: Astro 5, static output; only `POST /api/contact` runs server side (`export const prerender = false`)
 - **Hosting**: Cloudflare Workers with static assets (`@astrojs/cloudflare`, `wrangler.jsonc`), deployed by Cloudflare Git builds
-- **Key dependencies**: Astro content collections (Zod schemas), Cloudflare Turnstile, Cloudflare Email Routing `send_email` binding, `@fontsource` fonts
+- **Key dependencies**: Astro content collections (Zod schemas). Planned, not installed yet: `@fontsource` fonts (SOF-13), Cloudflare Turnstile and the Email Routing `send_email` binding (SOF-12). Add each with the issue that needs it
 - **Styling**: plain CSS; tokens in `src/styles/tokens.css` mirror `DESIGN.md`; scoped `<style>` per component. No Tailwind, no CSS in JS
 - **Package manager**: npm (lockfile committed)
 
