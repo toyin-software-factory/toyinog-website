@@ -2,7 +2,7 @@
 import { getCollection } from 'astro:content';
 import Base from '../../layouts/Base.astro';
 import Legend from '../../components/Legend.astro';
-import CaseCard from '../../components/CaseCard.astro';
+import CaseRow from '../../components/CaseRow.astro';
 
 const entries = (await getCollection('work')).sort(
   (a, b) => a.data.order - b.data.order,
@@ -21,17 +21,18 @@ const pad = (n: number) => String(n).padStart(2, '0');
     <p>Case studies: the problem, the decision and the outcome.</p>
   </header>
 
-  <div class="grid">
+  <ol class="rows" aria-label="Case studies">
     {entries.map((entry, i) => (
-      <CaseCard
-        legend={`Project ${pad(i + 1)}`}
+      <CaseRow
+        index={pad(i + 1)}
         title={entry.data.title}
-        outcome={entry.data.summary}
+        outcome={entry.data.outcome}
         year={entry.data.year}
+        stack={entry.data.stack}
         href={`/work/${entry.id}`}
       />
     ))}
-  </div>
+  </ol>
 </Base>
 
 <style>
@@ -47,9 +48,9 @@ const pad = (n: number) => String(n).padStart(2, '0');
     line-height: var(--type-headline-lg-line-height);
   }
 
-  .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
-    gap: var(--spacing-gutter);
+  .rows {
+    padding: 0;
+    list-style: none;
+    border-top: 1px solid var(--color-border);
   }
 </style>

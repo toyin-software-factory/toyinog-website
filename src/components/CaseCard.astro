@@ -8,12 +8,14 @@ interface Props {
   title: string;
   /** One-sentence outcome. */
   outcome: string;
+  /** Optional one-line result, shown as a data row. */
+  result?: string;
   year: number | string;
   stack?: string[];
   href: string;
 }
 
-const { legend, title, outcome, year, stack = [], href } = Astro.props;
+const { legend, title, outcome, result, year, stack = [], href } = Astro.props;
 ---
 
 <Panel legend={legend}>
@@ -23,6 +25,7 @@ const { legend, title, outcome, year, stack = [], href } = Astro.props;
     </a>
   </h3>
   <p>{outcome}</p>
+  {result && <p class="result">{result}</p>}
   {stack.length > 0 && (
     <ul class="stack" aria-label="Stack">
       {stack.map((item) => (
@@ -53,6 +56,12 @@ const { legend, title, outcome, year, stack = [], href } = Astro.props;
     gap: var(--spacing-sm);
     padding: 0;
     list-style: none;
+  }
+
+  .result {
+    font-size: var(--type-data-md-font-size);
+    line-height: var(--type-data-md-line-height);
+    color: var(--color-secondary);
   }
 
   .year {

@@ -39,6 +39,7 @@ Stored in `docs/specs/`. The approved stack spec is `docs/specs/stack.md`.
 - Use only `DESIGN.md` tokens (`var(--…)`) for colour, type, spacing, radius and motion. No raw hex values or magic numbers in components.
 - Ship no client JavaScript unless a component truly needs it; forms must work without JS.
 - Accessibility baseline is WCAG 2.2 AA: visible focus, full keyboard use, `prefers-reduced-motion` respected.
+- Work entries (`src/content/work/*.md`) carry optional `outcome` (one result line) and `stack` (chips). `CaseRow` renders the Work index, `CaseCard` renders Home and shows `outcome` as a data row; case study pages show a sticky facts rail at 960px and up (top 8rem, below the sticky header).
 - Photos are allowed only for the About portrait and highlight thumbnails (deliberate `DESIGN.md` exception), via `astro:assets`, stored in the repo.
 - Secrets and config (`TURNSTILE_SECRET_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL`) live in Cloudflare only. Never commit, log or print them.
 - SEO: every page goes through `Base.astro`, which renders `Seo.astro`; pass `description` (and `image`, `noindex`) as props, never raw `<meta>` in pages. Case-study share cards are generated at build time by `src/pages/og/[slug].png.ts`; the default card is the committed `public/og-default.png`.

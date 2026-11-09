@@ -3,6 +3,8 @@ title: '[Placeholder] Case study 1'
 summary: 'Placeholder summary. Replace with the real project description.'
 role: 'Placeholder role'
 year: 2025
+stack: ['Astro', 'TypeScript']
+outcome: 'Placeholder outcome. Replace with one measurable result.'
 links:
   - label: 'Placeholder link'
     url: https://example.com

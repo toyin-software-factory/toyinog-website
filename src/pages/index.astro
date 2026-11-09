@@ -64,6 +64,8 @@ const pad = (n: number) => String(n).padStart(2, '0');
           legend={`Project ${pad(i + 1)}`}
           title={entry.data.title}
           outcome={entry.data.summary}
+          result={entry.data.outcome}
+          stack={entry.data.stack}
           year={entry.data.year}
           href={`/work/${entry.id}`}
         />
