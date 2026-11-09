@@ -23,7 +23,10 @@ const ensureWasm = () =>
     require.resolve('@resvg/resvg-wasm/index_bg.wasm'),
   ).then((wasm) => initWasm(wasm)));
 
-async function loadFonts() {
+let fontsReady: ReturnType<typeof readFonts> | undefined;
+const loadFonts = () => (fontsReady ??= readFonts());
+
+async function readFonts() {
   const [voice, mono] = await Promise.all([
     font('barlow-condensed', 'barlow-condensed-latin-700-normal.woff'),
     font('ibm-plex-mono', 'ibm-plex-mono-latin-400-normal.woff'),
