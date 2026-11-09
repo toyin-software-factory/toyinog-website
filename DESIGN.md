@@ -228,7 +228,7 @@ The scale steps at roughly 1.5× at the top (96 → 56 → 36 → 24) because a 
 
 ## Layout
 
-Twelve columns on an 8px base, 24px gutters, 48px outer margin at desktop. The composition is **asymmetric and fixed**: a four-column left rail that stays put (name, role, location and local time, availability, links — the "readout") and an eight-column working area to its right that scrolls. The rail is the only element allowed to be sticky.
+Twelve columns on an 8px base, 24px gutters, 48px outer margin at desktop. The composition is **asymmetric and fixed**: a four-column left rail that stays put (name, role, location and local time, availability, links — the "readout") and an eight-column working area to its right that scrolls. Only the rail and the top header (nav) may be sticky; nothing else.
 
 Density is deliberately uneven. The hero is sparse — a very large name, one line of claim, one lit button, nothing else. The work index below it is dense: a ruled table of projects with year, stack and outcome in aligned columns, because a list of work is a table and not a grid of cards. Sections that belong together sit 32px apart; unrelated sections sit 128px apart. That difference is the page's phrasing — do not equalise it.
 
