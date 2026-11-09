@@ -27,6 +27,8 @@ jobs:
         run: npm run format:check
       - name: Astro check
         run: npm run check
+      - name: Unit tests
+        run: npm test
       - name: Build
         run: npm run build
       - name: Lighthouse CI
