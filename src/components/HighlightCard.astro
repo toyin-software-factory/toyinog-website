@@ -32,7 +32,7 @@ const formatted = Number.isNaN(parsed.getTime())
     });
 ---
 
-<Panel legend={platform}>
+<Panel legend={`${platform} · ${formatted}`}>
   {thumbnail && (
     <img
       src={thumbnail}
@@ -47,9 +47,6 @@ const formatted = Number.isNaN(parsed.getTime())
       {title}
     </a>
   </h3>
-  <p class="date">
-    <time datetime={date}>{formatted}</time>
-  </p>
 </Panel>
 
 <style>
@@ -70,11 +67,5 @@ const formatted = Number.isNaN(parsed.getTime())
     color: var(--color-on-surface);
     text-decoration: underline;
     text-decoration-color: var(--color-tertiary);
-  }
-
-  .date {
-    font-size: var(--type-data-md-font-size);
-    line-height: var(--type-data-md-line-height);
-    color: var(--color-secondary);
   }
 </style>
