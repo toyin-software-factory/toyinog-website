@@ -44,7 +44,7 @@ Pick the framework, hosting and how the dev environment deploys, then scaffold a
 ### 2. Coding standards & tooling
 Capture conventions from the real scaffolded project, then install lint, format, type checks and CI.
 **Done when:** root `AGENTS.md` reflects the real stack, and lint, format, type check and CI run clean on a pull request.
-- [ ] Capture conventions + tooling choices: `/audit`
+- [x] Capture conventions + tooling choices: `/audit`
 
 ### 3. Content model · needs a decision
 The shape of the text files that hold projects, highlights, profile details and links, so Toyin can change content without touching code.
