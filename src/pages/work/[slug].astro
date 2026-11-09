@@ -1,0 +1,257 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import Legend from '../../components/Legend.astro';
+
+export async function getStaticPaths() {
+  const entries = (await getCollection('work')).sort(
+    (a, b) => a.data.order - b.data.order,
+  );
+  return entries.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: { entry, prev: entries[i - 1], next: entries[i + 1] },
+  }));
+}
+
+const { entry, prev, next } = Astro.props;
+const { title, summary, role, year, links } = entry.data;
+const { Content } = await render(entry);
+---
+
+<Base title={`${title} | toyinog.com`} currentPath="/work">
+  <meta slot="head" name="description" content={summary} />
+
+  <article class="case">
+    <header class="head">
+      <Legend>CASE STUDY</Legend>
+      <h1>{title}</h1>
+      <p class="lead">{summary}</p>
+      <dl class="meta">
+        <div>
+          <dt>Role</dt>
+          <dd>{role}</dd>
+        </div>
+        <div>
+          <dt>Year</dt>
+          <dd>{year}</dd>
+        </div>
+      </dl>
+    </header>
+
+    <div class="prose">
+      <Content />
+    </div>
+
+    {links.length > 0 && (
+      <section class="links" aria-labelledby="links-heading">
+        <h2 id="links-heading">Links</h2>
+        <ul>
+          {links.map((link) => (
+            <li>
+              <a href={link.url} rel="noopener">
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+  </article>
+
+  <nav class="pager" aria-label="Case studies">
+    {prev ? (
+      <a class="prev" href={`/work/${prev.id}`} rel="prev">
+        <span class="dir">← Previous</span>
+        <span class="name">{prev.data.title}</span>
+      </a>
+    ) : (
+      <span />
+    )}
+    {next && (
+      <a class="next" href={`/work/${next.id}`} rel="next">
+        <span class="dir">Next →</span>
+        <span class="name">{next.data.title}</span>
+      </a>
+    )}
+  </nav>
+</Base>
+
+<style>
+  .case {
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+  }
+
+  .head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  h1 {
+    font-size: var(--type-headline-lg-font-size);
+    line-height: var(--type-headline-lg-line-height);
+  }
+
+  .lead {
+    font-size: var(--type-body-lg-font-size);
+    line-height: var(--type-body-lg-line-height);
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-lg);
+    padding-top: var(--spacing-md);
+    border-top: 1px solid var(--color-border);
+    font-size: var(--type-data-md-font-size);
+    line-height: var(--type-data-md-line-height);
+  }
+
+  .meta dt {
+    font-size: var(--type-label-caps-font-size);
+    letter-spacing: var(--type-label-caps-letter-spacing);
+    text-transform: uppercase;
+    color: var(--color-primary);
+  }
+
+  .meta dd {
+    margin: 0;
+    color: var(--color-secondary);
+  }
+
+  /* Markdown body: headings in voice, text in apparatus (DESIGN.md). */
+  .prose {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    font-size: var(--type-body-md-font-size);
+    line-height: var(--type-body-md-line-height);
+  }
+
+  .prose :global(h2) {
+    margin-top: var(--spacing-lg);
+    font-size: var(--type-headline-md-font-size);
+    line-height: var(--type-headline-md-line-height);
+  }
+
+  .prose :global(h3) {
+    margin-top: var(--spacing-md);
+    font-size: var(--type-headline-sm-font-size);
+    line-height: var(--type-headline-sm-line-height);
+  }
+
+  .prose :global(ul),
+  .prose :global(ol) {
+    padding-left: var(--spacing-lg);
+    max-width: 64ch;
+  }
+
+  .prose :global(li + li) {
+    margin-top: var(--spacing-xs);
+  }
+
+  .prose :global(blockquote) {
+    padding-left: var(--spacing-md);
+    border-left: 2px solid var(--color-primary);
+    color: var(--color-secondary);
+  }
+
+  .prose :global(code) {
+    font-size: var(--type-body-sm-font-size);
+    padding: 0 var(--spacing-xs);
+    background-color: var(--color-neutral);
+    border: 1px solid var(--color-border);
+  }
+
+  .prose :global(pre) {
+    padding: var(--spacing-md);
+    overflow-x: auto;
+    background-color: var(--color-neutral);
+    border: 1px solid var(--color-border);
+    font-size: var(--type-body-sm-font-size);
+    line-height: var(--type-body-sm-line-height);
+  }
+
+  .prose :global(pre code) {
+    padding: 0;
+    border: 0;
+    background: none;
+  }
+
+  .prose :global(img) {
+    height: auto;
+    border: 1px solid var(--color-border);
+  }
+
+  .links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+  }
+
+  .links h2 {
+    font-size: var(--type-headline-sm-font-size);
+    line-height: var(--type-headline-sm-line-height);
+  }
+
+  .links ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md) var(--spacing-lg);
+    padding: 0;
+    list-style: none;
+  }
+
+  .pager {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-xxl);
+    padding-top: var(--spacing-lg);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .pager a {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    min-height: 44px;
+    max-width: 48%;
+    color: var(--color-on-surface);
+    text-decoration: none;
+  }
+
+  .pager a:hover .name {
+    text-decoration: underline;
+    text-decoration-color: var(--color-tertiary);
+  }
+
+  .next {
+    margin-left: auto;
+    text-align: right;
+  }
+
+  .dir {
+    font-size: var(--type-label-caps-font-size);
+    letter-spacing: var(--type-label-caps-letter-spacing);
+    text-transform: uppercase;
+    color: var(--color-primary);
+  }
+
+  .name {
+    font-family: var(--font-voice);
+    font-weight: 700;
+    font-size: var(--type-headline-sm-font-size);
+    line-height: var(--type-headline-sm-line-height);
+  }
+
+  @media (max-width: 600px) {
+    h1 {
+      font-size: var(--type-headline-md-font-size);
+      line-height: var(--type-headline-md-line-height);
+    }
+  }
+</style>
