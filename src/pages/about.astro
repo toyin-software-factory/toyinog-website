@@ -1,0 +1,139 @@
+---
+import { getEntry, render } from 'astro:content';
+import { Picture } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import Legend from '../components/Legend.astro';
+
+const about = await getEntry('pages', 'about');
+if (!about) throw new Error('Missing page entry: src/content/pages/about.md');
+const site = await getEntry('site', 'site');
+if (!site) throw new Error('Missing site entry: src/content/site.yaml');
+
+const { title, heading, portrait, portraitAlt } = about.data;
+const { Content } = await render(about);
+const { socials } = site.data;
+const socialLinks = [
+  { label: 'X', href: socials.x },
+  { label: 'GitHub', href: socials.github },
+  { label: 'YouTube', href: socials.youtube },
+];
+---
+
+<Base title={`${title} | toyinog.com`} currentPath="/about">
+  <meta slot="head" name="description" content={heading} />
+
+  <section class="about" aria-labelledby="about-heading">
+    <div class="intro">
+      <Legend>ABOUT</Legend>
+      <h1 id="about-heading">{heading}</h1>
+      <div class="bio">
+        <Content />
+      </div>
+      <div class="actions">
+        <Button href="/contact">Get in touch</Button>
+      </div>
+    </div>
+    <Picture
+      pictureAttributes={{ class: 'portrait-frame' }}
+      class="portrait"
+      src={portrait}
+      alt={portraitAlt}
+      widths={[320, 480, 640]}
+      sizes="(max-width: 959px) 80vw, 320px"
+      formats={['avif', 'webp']}
+      loading="eager"
+    />
+  </section>
+
+  <section class="block" aria-labelledby="elsewhere-heading">
+    <Legend>ELSEWHERE</Legend>
+    <h2 id="elsewhere-heading">Find me</h2>
+    <ul class="socials">
+      {socialLinks.map((s) => (
+        <li>
+          <a href={s.href} rel="noopener noreferrer">
+            {s.label}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Base>
+
+<style>
+  .about {
+    display: grid;
+    gap: var(--spacing-lg);
+    align-items: start;
+  }
+
+  @media (min-width: 960px) {
+    .about {
+      grid-template-columns: 1fr 320px;
+      gap: var(--spacing-gutter);
+    }
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    align-items: flex-start;
+  }
+
+  .bio {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    max-width: 64ch;
+  }
+
+  .bio :global(p) {
+    margin: 0;
+  }
+
+  .about :global(.portrait-frame) {
+    order: -1;
+    display: block;
+    width: 100%;
+    max-width: 320px;
+  }
+
+  .about :global(.portrait) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+    border: 1px solid var(--color-border);
+    border-radius: var(--rounded-none);
+  }
+
+  @media (min-width: 960px) {
+    .about :global(.portrait-frame) {
+      order: 0;
+    }
+  }
+
+  .block {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-top: var(--spacing-xxl, 128px);
+  }
+
+  .socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs) var(--spacing-lg);
+    padding: 0;
+    list-style: none;
+  }
+
+  .socials a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+  }
+</style>
