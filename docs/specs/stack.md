@@ -63,7 +63,7 @@ AGENTS.md  DESIGN.md  wrangler.jsonc  astro.config.mjs
 ## Quality gates (CI on every PR, GitHub Actions)
 
 - `astro check` (types + content schemas), `npm run build`, Prettier check.
-- Lighthouse CI on the built site (median of 3 runs): accessibility and SEO >= 95 block CI; performance >= 95 is a warning only.
+- Lighthouse CI on the built site (median of 3 runs): accessibility or SEO below 95 blocks CI; performance below 95 is a warning only.
 - **Tests only where they earn their keep:** Vitest unit tests for the contact endpoint (validation, Turnstile failure, honeypot). No tests for markup or styling.
 - CodeRabbit reviews every PR. Visual PRs include a Proof section with screenshots.
 
