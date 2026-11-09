@@ -38,6 +38,11 @@ const { title = 'toyinog.com', currentPath = Astro.url.pathname } = Astro.props;
 </html>
 
 <style is:global>
+  /* Keep focused and anchored content clear of the sticky header. */
+  html {
+    scroll-padding-top: calc(44px + var(--spacing-xl));
+  }
+
   body {
     display: flex;
     flex-direction: column;

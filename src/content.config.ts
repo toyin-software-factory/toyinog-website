@@ -34,6 +34,7 @@ const highlights = defineCollection({
 const site = defineCollection({
   loader: glob({ pattern: 'site.yaml', base: './src/content' }),
   schema: z.object({
+    name: z.string(),
     tagline: z.string(),
     descriptor: z.string().optional(),
     availability: z.string(),
