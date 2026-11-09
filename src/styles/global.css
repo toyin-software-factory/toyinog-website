@@ -1,0 +1,155 @@
+/* Reset, base typography and colours. Tokens only: see tokens.css. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  background-color: var(--color-surface);
+  color-scheme: dark;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--color-surface);
+  color: var(--color-on-surface);
+  font-family: var(--type-body-md-font-family);
+  font-size: var(--type-body-md-font-size);
+  font-weight: var(--type-body-md-font-weight);
+  line-height: var(--type-body-md-line-height);
+  font-feature-settings: 'tnum' 1, 'zero' 1;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+p {
+  max-width: 64ch;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-voice);
+  font-weight: 700;
+}
+
+h1 {
+  font-size: var(--type-display-font-size);
+  line-height: var(--type-display-line-height);
+  letter-spacing: var(--type-display-letter-spacing);
+}
+
+h2 {
+  font-size: var(--type-headline-lg-font-size);
+  line-height: var(--type-headline-lg-line-height);
+  letter-spacing: var(--type-headline-lg-letter-spacing);
+}
+
+h3 {
+  font-size: var(--type-headline-md-font-size);
+  line-height: var(--type-headline-md-line-height);
+  letter-spacing: var(--type-headline-md-letter-spacing);
+}
+
+h4 {
+  font-size: var(--type-headline-sm-font-size);
+  line-height: var(--type-headline-sm-line-height);
+}
+
+small {
+  font-size: var(--type-body-sm-font-size);
+  line-height: var(--type-body-sm-line-height);
+}
+
+strong,
+b {
+  font-weight: 700;
+}
+
+a {
+  color: var(--color-tertiary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  transition: color var(--motion-color-duration);
+}
+
+a:hover {
+  color: var(--color-tertiary-strong);
+}
+
+hr {
+  height: 1px;
+  border: 0;
+  background-color: var(--color-border);
+}
+
+::selection {
+  background-color: var(--color-tertiary);
+  color: var(--color-surface);
+}
+
+/* Focus: 2px tertiary ring offset 2px, on keyboard focus only. */
+:focus-visible {
+  outline: 2px solid var(--color-tertiary);
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* Nothing pulses or transitions for visitors who ask for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
