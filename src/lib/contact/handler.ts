@@ -78,7 +78,7 @@ export async function handleContact(
   try {
     const body = await readBoundedBody(request);
     if (!body) return respond(request, { ok: false, error: 'invalid' });
-    form = await new Response(body, {
+    form = await new Response(body.buffer as ArrayBuffer, {
       headers: { 'content-type': request.headers.get('content-type') ?? '' },
     }).formData();
   } catch {
