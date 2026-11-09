@@ -1,0 +1,72 @@
+---
+interface Props {
+  id: string;
+  name: string;
+  label: string;
+  type?: 'text' | 'email';
+  required?: boolean;
+  /** Inline error message; adds a leading "!" so colour is not the only signal. */
+  error?: string;
+}
+
+const { id, name, label, type = 'text', required = false, error } = Astro.props;
+const errorId = `${id}-error`;
+---
+
+<div class="field">
+  <label for={id}>{label}</label>
+  <input
+    {id}
+    {name}
+    {type}
+    {required}
+    aria-invalid={error ? 'true' : undefined}
+    aria-describedby={error ? errorId : undefined}
+    class:list={{ invalid: Boolean(error) }}
+  />
+  {error && (
+    <p class="error" id={errorId}>
+      <span aria-hidden="true">! </span>
+      {error}
+    </p>
+  )}
+</div>
+
+<style>
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  label {
+    font-size: var(--type-label-caps-font-size);
+    letter-spacing: var(--type-label-caps-letter-spacing);
+    text-transform: uppercase;
+    color: var(--color-primary);
+  }
+
+  input {
+    min-height: 44px;
+    padding: var(--spacing-sm);
+    background-color: var(--color-neutral);
+    color: var(--color-on-surface);
+    border: 1px solid var(--color-primary);
+    border-radius: var(--rounded-sm);
+    transition: border-color var(--motion-color-duration);
+  }
+
+  input:focus {
+    border-color: var(--color-tertiary);
+  }
+
+  input.invalid {
+    border-color: var(--color-error);
+  }
+
+  .error {
+    font-size: var(--type-body-sm-font-size);
+    line-height: var(--type-body-sm-line-height);
+    color: var(--color-error);
+  }
+</style>

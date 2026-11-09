@@ -1,0 +1,63 @@
+---
+import Panel from './Panel.astro';
+import Chip from './Chip.astro';
+
+interface Props {
+  /** Position label, e.g. "PROJECT 03". */
+  legend: string;
+  title: string;
+  /** One-sentence outcome. */
+  outcome: string;
+  year: number | string;
+  stack?: string[];
+  href: string;
+}
+
+const { legend, title, outcome, year, stack = [], href } = Astro.props;
+---
+
+<Panel legend={legend}>
+  <h3>
+    <a class="title" href={href}>
+      {title}
+    </a>
+  </h3>
+  <p>{outcome}</p>
+  {stack.length > 0 && (
+    <ul class="stack" aria-label="Stack">
+      {stack.map((item) => (
+        <li>
+          <Chip>{item}</Chip>
+        </li>
+      ))}
+    </ul>
+  )}
+  <p class="year">{year}</p>
+</Panel>
+
+<style>
+  .title {
+    color: var(--color-on-surface);
+    text-decoration: none;
+  }
+
+  .title:hover {
+    color: var(--color-on-surface);
+    text-decoration: underline;
+    text-decoration-color: var(--color-tertiary);
+  }
+
+  .stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    padding: 0;
+    list-style: none;
+  }
+
+  .year {
+    font-size: var(--type-data-md-font-size);
+    line-height: var(--type-data-md-line-height);
+    color: var(--color-secondary);
+  }
+</style>

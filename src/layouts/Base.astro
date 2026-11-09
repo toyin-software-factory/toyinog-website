@@ -1,0 +1,89 @@
+---
+import '@fontsource/barlow-condensed/700.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/700.css';
+import '../styles/tokens.css';
+import '../styles/global.css';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+
+interface Props {
+  title?: string;
+  /** Path of the current page, used to mark the active nav link. */
+  currentPath?: string;
+}
+
+const { title = 'toyinog.com', currentPath = Astro.url.pathname } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>{title}</title>
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">
+      Skip to content
+    </a>
+    <Nav currentPath={currentPath} />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style is:global>
+  body {
+    display: flex;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1;
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding: var(--spacing-xl) var(--spacing-md);
+  }
+
+  main:focus {
+    outline: none;
+  }
+
+  @media (min-width: 960px) {
+    main {
+      padding-inline: var(--spacing-margin);
+    }
+  }
+
+  .skip-link {
+    position: absolute;
+    top: var(--spacing-sm);
+    left: var(--spacing-sm);
+    z-index: 10;
+    padding: var(--spacing-sm) var(--spacing-md);
+    background-color: var(--color-tertiary);
+    color: var(--color-surface);
+    font-size: var(--type-label-strong-font-size);
+    font-weight: 700;
+    letter-spacing: var(--type-label-strong-letter-spacing);
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: var(--rounded-sm);
+    transform: translateY(-300%);
+  }
+
+  .skip-link:focus {
+    transform: none;
+  }
+
+  .skip-link:hover {
+    color: var(--color-surface);
+    background-color: var(--color-tertiary-strong);
+  }
+</style>
