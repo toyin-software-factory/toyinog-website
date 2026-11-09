@@ -9,6 +9,8 @@ const work = defineCollection({
       summary: z.string(),
       role: z.string(),
       year: z.number().int().min(2000).max(2100),
+      stack: z.array(z.string()).default([]),
+      outcome: z.string().optional(),
       links: z
         .array(z.object({ label: z.string(), url: z.string().url() }))
         .default([]),

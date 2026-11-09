@@ -1,0 +1,112 @@
+---
+import Chip from './Chip.astro';
+
+interface Props {
+  /** Row number, e.g. "01". */
+  index: string;
+  title: string;
+  /** Optional one-line result. */
+  outcome?: string;
+  year: number | string;
+  stack?: string[];
+  href: string;
+}
+
+const { index, title, outcome, year, stack = [], href } = Astro.props;
+---
+
+<li class="row">
+  <span class="index">{index}</span>
+  <div class="main">
+    <h2>
+      <a href={href}>{title}</a>
+    </h2>
+    {outcome && <p class="outcome">{outcome}</p>}
+  </div>
+  <p class="year">{year}</p>
+  {stack.length > 0 && (
+    <ul class="stack" aria-label="Stack">
+      {stack.map((item) => (
+        <li>
+          <Chip>{item}</Chip>
+        </li>
+      ))}
+    </ul>
+  )}
+</li>
+
+<style>
+  .row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-areas:
+      'index main year'
+      '. stack stack';
+    gap: var(--spacing-sm) var(--spacing-md);
+    align-items: baseline;
+    padding: var(--spacing-md) 0;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .index {
+    grid-area: index;
+    font-size: var(--type-data-md-font-size);
+    line-height: var(--type-data-md-line-height);
+    font-feature-settings: var(--type-data-md-font-feature-settings);
+    color: var(--color-primary);
+  }
+
+  .main {
+    grid-area: main;
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs);
+  }
+
+  h2 {
+    font-size: var(--type-headline-sm-font-size);
+    line-height: var(--type-headline-sm-line-height);
+  }
+
+  h2 a {
+    color: var(--color-on-surface);
+    text-decoration: none;
+  }
+
+  h2 a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--color-tertiary);
+  }
+
+  .outcome,
+  .year {
+    font-size: var(--type-data-md-font-size);
+    line-height: var(--type-data-md-line-height);
+    color: var(--color-secondary);
+  }
+
+  .year {
+    grid-area: year;
+  }
+
+  .stack {
+    grid-area: stack;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    padding: 0;
+    list-style: none;
+  }
+
+  @media (min-width: 960px) {
+    .row {
+      grid-template-columns: auto 1fr auto minmax(0, 16rem);
+      grid-template-areas: 'index main year stack';
+      gap: var(--spacing-md) var(--spacing-lg);
+    }
+
+    .stack {
+      justify-content: flex-end;
+    }
+  }
+</style>
