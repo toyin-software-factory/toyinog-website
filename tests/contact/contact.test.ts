@@ -107,4 +107,16 @@ describe('POST /api/contact', () => {
     expect(fetchSpy).not.toHaveBeenCalled();
     expect(send).not.toHaveBeenCalled();
   });
+
+  it('rejects oversized bodies before parsing and matches Accept case-insensitively', async () => {
+    send.mockClear();
+    const res = await handleContact(
+      post({ ...valid, message: 'x'.repeat(100_000) }, 'Application/JSON'),
+      env,
+      { fetch: turnstile(true) },
+    );
+    expect(res.status).toBe(400);
+    expect(await res.json()).toEqual({ ok: false, error: 'invalid' });
+    expect(send).not.toHaveBeenCalled();
+  });
 });
