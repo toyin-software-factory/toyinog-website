@@ -1,0 +1,53 @@
+---
+import Base from '../layouts/Base.astro';
+import Button from '../components/Button.astro';
+import Legend from '../components/Legend.astro';
+---
+
+<Base
+  title="Page not found | toyinog.com"
+  description="That page does not exist."
+  noindex
+>
+  <section class="lost" aria-labelledby="lost-heading">
+    <Legend>ERROR 404</Legend>
+    <h1 id="lost-heading">Page not found</h1>
+    <p>
+      That address does not lead anywhere. It may have moved or never existed.
+    </p>
+    <div class="actions">
+      <Button href="/">Back to home</Button>
+      <Button href="/work" variant="secondary">
+        See the work
+      </Button>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .lost {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-md);
+    padding-block: var(--spacing-xl);
+  }
+
+  h1 {
+    font-family: var(--type-display-font-family);
+    font-size: var(--type-headline-lg-font-size);
+    font-weight: var(--type-headline-lg-font-weight);
+    line-height: var(--type-headline-lg-line-height);
+    letter-spacing: var(--type-headline-lg-letter-spacing);
+  }
+
+  p {
+    max-width: 60ch;
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-md);
+  }
+</style>

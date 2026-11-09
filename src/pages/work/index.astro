@@ -10,13 +10,11 @@ const entries = (await getCollection('work')).sort(
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
-<Base title="Work | toyinog.com" currentPath="/work">
-  <meta
-    slot="head"
-    name="description"
-    content="Case studies: the problem, the decision and the outcome."
-  />
-
+<Base
+  title="Work | toyinog.com"
+  description="Case studies: the problem, the decision and the outcome."
+  currentPath="/work"
+>
   <header class="head">
     <Legend>WORK</Legend>
     <h1>Work</h1>

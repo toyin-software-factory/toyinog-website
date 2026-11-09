@@ -41,9 +41,7 @@ const socialLinks = [
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
-<Base title="toyinog.com" currentPath="/">
-  <meta slot="head" name="description" content={tagline} />
-
+<Base title="toyinog.com" description={tagline} currentPath="/">
   <section class="hero">
     <StatusDot label={availability} />
     <h1>{tagline}</h1>
