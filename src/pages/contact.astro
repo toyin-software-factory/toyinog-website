@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import Legend from '../components/Legend.astro';
+import ContactForm from '../components/ContactForm.astro';
+
+// Server rendered so the `?sent=1` / `?error=` redirect from /api/contact shows without JS.
+export const prerender = false;
+
+const { searchParams } = Astro.url;
+const status =
+  searchParams.get('sent') === '1' ? 'sent' : searchParams.get('error');
+---
+
+<Base title="Contact | toyinog.com" currentPath="/contact">
+  <meta
+    slot="head"
+    name="description"
+    content="Get in touch: send a message about a project, a collaboration or a question."
+  />
+
+  <header class="head">
+    <Legend>CONTACT</Legend>
+    <h1>Contact</h1>
+    <p>Send a message about a project, a collaboration or a question.</p>
+  </header>
+
+  <ContactForm status={status} />
+</Base>
+
+<style>
+  .head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    margin-bottom: var(--spacing-xl);
+  }
+
+  h1 {
+    font-size: var(--type-headline-lg-font-size);
+    line-height: var(--type-headline-lg-line-height);
+  }
+
+  @media (max-width: 599px) {
+    h1 {
+      font-size: var(--type-headline-md-font-size);
+      line-height: var(--type-headline-md-line-height);
+    }
+  }
+</style>

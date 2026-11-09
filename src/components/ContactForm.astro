@@ -1,0 +1,245 @@
+---
+import Panel from './Panel.astro';
+import Button from './Button.astro';
+
+interface Props {
+  /** Result of a plain POST: `sent` or a ContactError code from the redirect. */
+  status?: string | null;
+}
+
+const { status = null } = Astro.props;
+const siteKey = import.meta.env.PUBLIC_TURNSTILE_SITE_KEY;
+
+const messages = {
+  sent: "Message sent. Thanks, I'll get back to you soon.",
+  invalid:
+    "Something in the form isn't right. Check your details and try again.",
+  captcha: 'Verification failed. Complete the check and try again.',
+  send: "Your message couldn't be sent. Try again in a moment.",
+  config: "The contact form isn't available right now. Try again later.",
+  network: "Couldn't reach the server. Check your connection and try again.",
+  missingCaptcha: 'Complete the verification check before sending.',
+  name: 'Enter your name.',
+  email: 'Enter a valid email address.',
+  message: 'Write a message of at least 10 characters.',
+};
+
+type MessageKey = keyof typeof messages;
+const known = (key: string | null): key is MessageKey =>
+  key !== null &&
+  key in messages &&
+  !['name', 'email', 'message'].includes(key);
+// An unknown `?error=` value still reads as a failure.
+const statusKey: MessageKey | null = status
+  ? known(status)
+    ? status
+    : 'send'
+  : null;
+const statusText = statusKey ? messages[statusKey] : '';
+const isError = statusKey !== null && statusKey !== 'sent';
+const unavailable = !siteKey;
+---
+
+<Panel legend="Message">
+  <form
+    action="/api/contact"
+    method="post"
+    data-contact-form
+    data-messages={JSON.stringify(messages)}
+  >
+    <div
+      id="form-status"
+      class:list={['status', { error: isError, ok: statusKey === 'sent' }]}
+      role="status"
+      aria-live="polite"
+      tabindex="-1"
+      data-form-status
+      data-initial={statusKey ? 'true' : undefined}
+      hidden={!statusKey && !unavailable}
+    >
+      {unavailable && !statusKey ? (
+        <>
+          <span aria-hidden="true">! </span>
+          {messages.config}
+        </>
+      ) : statusKey ? (
+        <>
+          <span aria-hidden="true">{isError ? '! ' : '✓ '}</span>
+          {statusText}
+        </>
+      ) : null}
+    </div>
+
+    <div class="field">
+      <label for="contact-name">Name</label>
+      <input
+        id="contact-name"
+        name="name"
+        type="text"
+        autocomplete="name"
+        required
+        maxlength="100"
+        aria-describedby="contact-name-error"
+      />
+      <p class="field-error" id="contact-name-error" hidden></p>
+    </div>
+
+    <div class="field">
+      <label for="contact-email">Email</label>
+      <input
+        id="contact-email"
+        name="email"
+        type="email"
+        autocomplete="email"
+        required
+        maxlength="254"
+        aria-describedby="contact-email-error"
+      />
+      <p class="field-error" id="contact-email-error" hidden></p>
+    </div>
+
+    <div class="field">
+      <label for="contact-message">Message</label>
+      <textarea
+        id="contact-message"
+        name="message"
+        rows="6"
+        required
+        minlength="10"
+        maxlength="5000"
+        aria-describedby="contact-message-error"
+      ></textarea>
+      <p class="field-error" id="contact-message-error" hidden></p>
+    </div>
+
+    <!-- Honeypot: humans never see or reach it, bots fill it. Must stay empty. -->
+    <div class="trap" aria-hidden="true">
+      <label for="contact-website">Website</label>
+      <input
+        id="contact-website"
+        name="website"
+        type="text"
+        tabindex="-1"
+        autocomplete="off"
+      />
+    </div>
+
+    {siteKey && (
+      <div
+        class="cf-turnstile"
+        data-sitekey={siteKey}
+        data-theme="dark"
+        data-language="en"
+      />
+    )}
+    <noscript>
+      <p class="hint">
+        The spam check needs JavaScript. Enable it to send a message.
+      </p>
+    </noscript>
+
+    <div>
+      <Button type="submit" disabled={unavailable}>
+        Send message
+      </Button>
+    </div>
+  </form>
+</Panel>
+
+{siteKey && (
+  <script
+    is:inline
+    src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+    async
+    defer
+  />
+)}
+
+<script>
+  import '../scripts/contact';
+</script>
+
+<style>
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    max-width: 640px;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+  }
+
+  label {
+    font-size: var(--type-label-caps-font-size);
+    letter-spacing: var(--type-label-caps-letter-spacing);
+    text-transform: uppercase;
+    color: var(--color-primary);
+  }
+
+  input,
+  textarea {
+    min-height: 44px;
+    padding: var(--spacing-sm);
+    background-color: var(--color-neutral);
+    color: var(--color-on-surface);
+    border: 1px solid var(--color-primary);
+    border-radius: var(--rounded-sm);
+    transition: border-color var(--motion-color-duration);
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  input:focus,
+  textarea:focus {
+    border-color: var(--color-tertiary);
+  }
+
+  input[aria-invalid='true'],
+  textarea[aria-invalid='true'] {
+    border-color: var(--color-error);
+  }
+
+  .field-error {
+    font-size: var(--type-body-sm-font-size);
+    line-height: var(--type-body-sm-line-height);
+    color: var(--color-error);
+  }
+
+  .status {
+    padding: var(--spacing-md);
+    border: 1px solid var(--color-primary);
+    border-radius: var(--rounded-sm);
+    background-color: var(--color-surface);
+    font-size: var(--type-body-md-font-size);
+    line-height: var(--type-body-md-line-height);
+  }
+
+  .status.ok {
+    border-color: var(--color-tertiary);
+  }
+
+  .status.error {
+    border-color: var(--color-error);
+    color: var(--color-error);
+  }
+
+  .hint {
+    font-size: var(--type-body-sm-font-size);
+    line-height: var(--type-body-sm-line-height);
+    color: var(--color-secondary);
+  }
+
+  .trap {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+</style>
