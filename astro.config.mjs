@@ -10,8 +10,9 @@ export default defineConfig({
   adapter: cloudflare(),
   integrations: [
     sitemap({
-      // Internal pages: the styleguide is noindex, the 404 and API are not content.
-      filter: (page) => !/\/(styleguide|404|api)(\/|$)/.test(page),
+      // Left out: styleguide (noindex), 404 and API (not content), and /contact, which is
+      // server rendered, so it has no trailing-slash URL that matches its canonical.
+      filter: (page) => !/\/(styleguide|404|api|contact)(\/|$)/.test(page),
     }),
   ],
 });
