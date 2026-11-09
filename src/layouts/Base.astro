@@ -6,14 +6,27 @@ import '../styles/tokens.css';
 import '../styles/global.css';
 import Nav from '../components/Nav.astro';
 import Footer from '../components/Footer.astro';
+import Seo from '../components/Seo.astro';
 
 interface Props {
   title?: string;
+  description?: string;
+  /** Share image path; defaults to the site-wide card. */
+  image?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
   /** Path of the current page, used to mark the active nav link. */
   currentPath?: string;
 }
 
-const { title = 'toyinog.com', currentPath = Astro.url.pathname } = Astro.props;
+const {
+  title = 'toyinog.com',
+  description = "Toyin's portfolio: building products and sharing the journey.",
+  image,
+  type,
+  noindex,
+  currentPath = Astro.url.pathname,
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -22,7 +35,7 @@ const { title = 'toyinog.com', currentPath = Astro.url.pathname } = Astro.props;
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title}</title>
+    <Seo {title} {description} {image} {type} {noindex} />
     <slot name="head" />
   </head>
   <body>

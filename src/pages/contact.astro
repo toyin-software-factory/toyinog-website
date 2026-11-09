@@ -11,13 +11,11 @@ const status =
   searchParams.get('sent') === '1' ? 'sent' : searchParams.get('error');
 ---
 
-<Base title="Contact | toyinog.com" currentPath="/contact">
-  <meta
-    slot="head"
-    name="description"
-    content="Get in touch: send a message about a project, a collaboration or a question."
-  />
-
+<Base
+  title="Contact | toyinog.com"
+  description="Get in touch: send a message about a project, a collaboration or a question."
+  currentPath="/contact"
+>
   <header class="head">
     <Legend>CONTACT</Legend>
     <h1>Contact</h1>

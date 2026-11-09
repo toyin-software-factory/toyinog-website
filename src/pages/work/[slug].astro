@@ -18,9 +18,13 @@ const { title, summary, role, year, links } = entry.data;
 const { Content } = await render(entry);
 ---
 
-<Base title={`${title} | toyinog.com`} currentPath="/work">
-  <meta slot="head" name="description" content={summary} />
-
+<Base
+  title={`${title} | toyinog.com`}
+  description={summary}
+  image={`/og/${entry.id}.png`}
+  type="article"
+  currentPath="/work"
+>
   <article class="case">
     <header class="head">
       <Legend>CASE STUDY</Legend>

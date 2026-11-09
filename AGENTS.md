@@ -7,7 +7,7 @@ Toyin's influencer and portfolio site. Look and feel: [`DESIGN.md`](DESIGN.md). 
 - **Language / Runtime**: TypeScript (strict), Node 22 (`.nvmrc`)
 - **Framework**: Astro 5, static output; only `POST /api/contact` and the `/contact` page (to show the `?sent=1` / `?error=` redirect without JS) run server side (`export const prerender = false`)
 - **Hosting**: Cloudflare Workers with static assets (`@astrojs/cloudflare`, `wrangler.jsonc`), deployed by Cloudflare Git builds
-- **Key dependencies**: Astro content collections (Zod schemas). `zod` and Vitest (contact endpoint), Cloudflare Turnstile (verified server side; widget site key from the public build env var `PUBLIC_TURNSTILE_SITE_KEY`, set in Cloudflare, locally in a gitignored `.env` with Cloudflare's test key `1x00000000000000000000AA`) and the Email Routing `send_email` binding. Add each dependency with the issue that needs it
+- **Key dependencies**: Astro content collections (Zod schemas). `zod` and Vitest (contact endpoint), Cloudflare Turnstile (verified server side; widget site key from the public build env var `PUBLIC_TURNSTILE_SITE_KEY`, set in Cloudflare, locally in a gitignored `.env` with Cloudflare's test key `1x00000000000000000000AA`) and the Email Routing `send_email` binding. `@astrojs/sitemap`, `satori` + `@resvg/resvg-wasm` (build-time OG images; the native `resvg-js` cannot be bundled for the Cloudflare adapter). Add each dependency with the issue that needs it
 - **Styling**: plain CSS; tokens in `src/styles/tokens.css` mirror `DESIGN.md`; scoped `<style>` per component. No Tailwind, no CSS in JS
 - **Package manager**: npm (lockfile committed)
 
@@ -41,6 +41,7 @@ Stored in `docs/specs/`. The approved stack spec is `docs/specs/stack.md`.
 - Accessibility baseline is WCAG 2.2 AA: visible focus, full keyboard use, `prefers-reduced-motion` respected.
 - Photos are allowed only for the About portrait and highlight thumbnails (deliberate `DESIGN.md` exception), via `astro:assets`, stored in the repo.
 - Secrets and config (`TURNSTILE_SECRET_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL`) live in Cloudflare only. Never commit, log or print them.
+- SEO: every page goes through `Base.astro`, which renders `Seo.astro`; pass `description` (and `image`, `noindex`) as props, never raw `<meta>` in pages. Case-study share cards are generated at build time by `src/pages/og/[slug].png.ts`; the default card is the committed `public/og-default.png`.
 - Validate every server input with Zod and length limits; never trust form data.
 
 ## Tooling
