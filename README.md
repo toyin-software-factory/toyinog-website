@@ -19,7 +19,7 @@ npm run dev       # dev server at http://localhost:4321
 | ---------------------- | ----------------------------------------- |
 | `npm run dev`          | Astro dev server                          |
 | `npm run build`        | Production build into `dist/`             |
-| `npm run preview`      | Serve the built site locally              |
+| `npm run preview`      | Serve the build locally (Wrangler)        |
 | `npm run check`        | `astro check` (types and content schemas) |
 | `npm run format`       | Format with Prettier                      |
 | `npm run format:check` | Verify formatting (CI runs this)          |

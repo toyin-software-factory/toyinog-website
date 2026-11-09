@@ -10,7 +10,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "check": "astro check",
-    "preview": "astro preview",
+    "preview": "wrangler dev",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
