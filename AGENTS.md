@@ -7,7 +7,7 @@ Toyin's influencer and portfolio site. Look and feel: [`DESIGN.md`](DESIGN.md). 
 - **Language / Runtime**: TypeScript (strict), Node 22 (`.nvmrc`)
 - **Framework**: Astro 5, static output; only `POST /api/contact` runs server side (`export const prerender = false`)
 - **Hosting**: Cloudflare Workers with static assets (`@astrojs/cloudflare`, `wrangler.jsonc`), deployed by Cloudflare Git builds
-- **Key dependencies**: Astro content collections (Zod schemas). Planned, not installed yet: `@fontsource` fonts (SOF-13), Cloudflare Turnstile and the Email Routing `send_email` binding (SOF-12). Add each with the issue that needs it
+- **Key dependencies**: Astro content collections (Zod schemas). `zod` and Vitest (contact endpoint), Cloudflare Turnstile (verified server side) and the Email Routing `send_email` binding. Add each dependency with the issue that needs it
 - **Styling**: plain CSS; tokens in `src/styles/tokens.css` mirror `DESIGN.md`; scoped `<style>` per component. No Tailwind, no CSS in JS
 - **Package manager**: npm (lockfile committed)
 
@@ -22,6 +22,7 @@ npm ci                  # install
 npm run dev             # dev server, http://localhost:4321
 npm run build           # build into dist/
 npm run check           # astro check: types and content schemas
+npm test                # Vitest, contact endpoint only
 npm run format          # Prettier, write
 npm run format:check    # Prettier, verify (CI)
 npm run build && npx lhci autorun   # Lighthouse locally
@@ -39,13 +40,13 @@ Stored in `docs/specs/`. The approved stack spec is `docs/specs/stack.md`.
 - Ship no client JavaScript unless a component truly needs it; forms must work without JS.
 - Accessibility baseline is WCAG 2.2 AA: visible focus, full keyboard use, `prefers-reduced-motion` respected.
 - Photos are allowed only for the About portrait and highlight thumbnails (deliberate `DESIGN.md` exception), via `astro:assets`, stored in the repo.
-- Secrets (`TURNSTILE_SECRET_KEY`, the destination email) live in Cloudflare only. Never commit, log or print them.
+- Secrets and config (`TURNSTILE_SECRET_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL`) live in Cloudflare only. Never commit, log or print them.
 - Validate every server input with Zod and length limits; never trust form data.
 
 ## Tooling
 
 - Checks: Prettier (with `prettier-plugin-astro`) and strict TypeScript via `astro check`. No ESLint and no commit hooks (Toyin's choice, 2026-11-09).
-- CI (`.github/workflows/ci.yml`) on every PR: Prettier check, `astro check`, build, Lighthouse CI (performance, accessibility, SEO each at least 95).
+- CI (`.github/workflows/ci.yml`) on every PR: Prettier check, `astro check`, unit tests, build, Lighthouse CI (performance, accessibility, SEO each at least 95).
 - Tests only where they earn their keep: Vitest for the contact endpoint. No tests for markup, styling or trivial code.
 
 ## Git
